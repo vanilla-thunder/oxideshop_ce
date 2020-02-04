@@ -1117,7 +1117,7 @@ class ConfigTest extends \OxidTestCase
     public function testThemeNameExpectsDefault()
     {
         $oConfig = new modForTestGetBaseTplDirExpectsDefault();
-        $this->assertEquals('azure', $oConfig->getConfigParam('sTheme'));
+        $this->assertEquals('flow', $oConfig->getConfigParam('sTheme'));
     }
 
     public function testGetResourceUrlExpectsDefault()
