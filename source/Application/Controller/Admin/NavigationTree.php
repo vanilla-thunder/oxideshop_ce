@@ -103,14 +103,14 @@ class NavigationTree extends Base
         $domFile->preserveWhiteSpace = false;
         if (!@$domFile->load($menuFile)) {
             $merge = true;
-        } elseif (is_readable($menuFile) && ($xml = @file_get_contents($menuFile))) {
+        } elseif (\is_readable($menuFile) && ($xml = @\file_get_contents($menuFile))) {
             // looking for non supported character encoding
             if (Str::getStr()->preg_match("/encoding\=(.*)\?\>/", $xml, $matches) !== 0) {
                 if (isset($matches[1])) {
-                    $currEncoding = trim($matches[1], "\"");
-                    if (!in_array(strtolower($currEncoding), $this->_aSupportedExpathXmlEncodings)) {
-                        $xml = str_replace($matches[1], "\"UTF-8\"", $xml);
-                        $xml = iconv($currEncoding, "UTF-8", $xml);
+                    $currEncoding = \trim($matches[1], "\"");
+                    if (!\in_array(\strtolower($currEncoding), $this->_aSupportedExpathXmlEncodings)) {
+                        $xml = \str_replace($matches[1], "\"UTF-8\"", $xml);
+                        $xml = \iconv($currEncoding, "UTF-8", $xml);
                     }
                 }
             }
@@ -140,7 +140,7 @@ class NavigationTree extends Base
         foreach (['url', 'link'] as $attrType) {
             foreach ($xPath->query("//OXMENU//*[@$attrType]") as $node) {
                 $localUrl = $node->getAttribute($attrType);
-                if (strpos($localUrl, 'index.php?') === 0) {
+                if (\strpos($localUrl, 'index.php?') === 0) {
                     $localUrl = $str->preg_replace('#^index.php\?#', $url, $localUrl);
                     $node->setAttribute($attrType, $localUrl);
                 }
@@ -162,7 +162,7 @@ class NavigationTree extends Base
         foreach ($nodeList as $node) {
             // only allowed modules/user rights or so
             if (($req = $node->getAttribute('rights'))) {
-                $perms = explode(',', $req);
+                $perms = \explode(',', $req);
                 foreach ($perms as $perm) {
                     if ($perm && !$this->_hasRights($perm)) {
                         $node->parentNode->removeChild($node);
@@ -170,7 +170,7 @@ class NavigationTree extends Base
                 }
                 // not allowed modules/user rights or so
             } elseif (($noReq = $node->getAttribute('norights'))) {
-                $perms = explode(',', $noReq);
+                $perms = \explode(',', $noReq);
                 foreach ($perms as $perm) {
                     if ($perm && $this->_hasRights($perm)) {
                         $node->parentNode->removeChild($node);
@@ -194,7 +194,7 @@ class NavigationTree extends Base
         foreach ($nodeList as $node) {
             // allowed only for groups
             if (($req = $node->getAttribute('group'))) {
-                $perms = explode(',', $req);
+                $perms = \explode(',', $req);
                 foreach ($perms as $perm) {
                     if ($perm && !$this->_hasGroup($perm)) {
                         $node->parentNode->removeChild($node);
@@ -202,7 +202,7 @@ class NavigationTree extends Base
                 }
                 // not allowed for groups
             } elseif (($noReq = $node->getAttribute('nogroup'))) {
-                $perms = explode(',', $noReq);
+                $perms = \explode(',', $noReq);
                 foreach ($perms as $perm) {
                     if ($perm && $this->_hasGroup($perm)) {
                         $node->parentNode->removeChild($node);
@@ -423,7 +423,7 @@ class NavigationTree extends Base
         if ($this->_oInitialDom === null) {
             $myOxUtlis = \OxidEsales\Eshop\Core\Registry::getUtils();
 
-            if (is_array($filesToLoad = $this->_getMenuFiles())) {
+            if (\is_array($filesToLoad = $this->_getMenuFiles())) {
                 // now checking if xml files are newer than cached file
                 $reload = false;
                 $templateLanguageCode = $this->getTemplateLanguageCode();
@@ -432,9 +432,9 @@ class NavigationTree extends Base
                 $cacheName = 'menu_' . $templateLanguageCode . $shopId . '_xml';
                 $cacheFile = $myOxUtlis->getCacheFilePath($cacheName);
                 $cacheContents = $myOxUtlis->fromFileCache($cacheName);
-                if ($cacheContents && file_exists($cacheFile) && ($cacheModTime = filemtime($cacheFile))) {
+                if ($cacheContents && \file_exists($cacheFile) && ($cacheModTime = \filemtime($cacheFile))) {
                     foreach ($filesToLoad as $dynPath) {
-                        if ($cacheModTime < filemtime($dynPath)) {
+                        if ($cacheModTime < \filemtime($dynPath)) {
                             $reload = true;
                         }
                     }
@@ -510,7 +510,7 @@ class NavigationTree extends Base
     public function getListNodes($nodes)
     {
         $xPath = new DOMXPath($this->getDomXml());
-        $nodeList = $xPath->query("//SUBMENU[@cl='" . implode("' or @cl='", $nodes) . "']");
+        $nodeList = $xPath->query("//SUBMENU[@cl='" . \implode("' or @cl='", $nodes) . "']");
 
         return ($nodeList->length) ? $nodeList : null;
     }
@@ -596,9 +596,9 @@ class NavigationTree extends Base
         $myConfig = \OxidEsales\Eshop\Core\Registry::getConfig();
 
         if (($adminSslUrl = $myConfig->getConfigParam('sAdminSSLURL'))) {
-            $url = trim($adminSslUrl, '/');
+            $url = \trim($adminSslUrl, '/');
         } else {
-            $url = trim($myConfig->getConfigParam('sShopURL'), '/') . '/admin';
+            $url = \trim($myConfig->getConfigParam('sShopURL'), '/') . '/admin';
         }
 
         return \OxidEsales\Eshop\Core\Registry::getUtilsUrl()->processUrl("{$url}/index.php", false);
