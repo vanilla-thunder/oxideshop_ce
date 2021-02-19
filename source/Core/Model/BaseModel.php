@@ -1612,7 +1612,7 @@ class BaseModel extends \OxidEsales\Eshop\Core\Base
      */
     public function isPropertyLoaded($name)
     {
-        return property_exists($this, $name) && $this->$name !== null;
+        return isset($this->$name);
     }
 
     /**
@@ -1657,6 +1657,6 @@ class BaseModel extends \OxidEsales\Eshop\Core\Base
      */
     private function isPropertyField($name)
     {
-        return $this->$name instanceof Field;
+        return property_exists($this, $name) && $this->$name instanceof Field;
     }
 }
