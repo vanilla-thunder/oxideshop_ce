@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [6.7.0] - Unreleased
 
+### Added
+- Support PHP 8.0
+
 ### Deprecated
 - Support for Module source-directory and target-directory in composer.json
     - Method:
@@ -23,6 +26,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Reset voucher reservations after logout [PR-845](https://github.com/OXID-eSales/oxideshop_ce/pull/845)
+
+### Removed
+- Support PHP 7.1 and 7.2
 
 ## [6.6.0] - 2020-11-10
 
