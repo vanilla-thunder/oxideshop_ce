@@ -10,16 +10,16 @@ namespace OxidEsales\EshopCommunity\Application\Controller\Admin;
 use oxRegistry;
 
 /**
- * Admin article main newsletter manager.
- * Performs collection and updatind (on user submit) main item information.
- * Admin Menu: Customer Info -> Newsletter -> Main.
+ * Newsletter plain manager.
+ * Performs newsletter creation (plain text format, collects neccessary information).
+ * Admin Menu: Customer Info -> Newsletter -> Text.
  */
-class NewsletterMain extends \OxidEsales\Eshop\Application\Controller\Admin\AdminDetailsController
+class NewsletterPlain extends \OxidEsales\Eshop\Application\Controller\Admin\AdminDetailsController
 {
     /**
-     * Executes parent method parent::render(), creates oxnewsletter object
-     * and passes it's data to Smarty engine. Returns name of template file
-     * "newsletter_main.tpl".
+     * Executes prent method parent::render(), creates oxnewsletter object
+     * and passes it's data to smarty. Returns name of template file
+     * "newsletter_plain.tpl".
      *
      * @return string
      */
@@ -28,26 +28,18 @@ class NewsletterMain extends \OxidEsales\Eshop\Application\Controller\Admin\Admi
         parent::render();
 
         $soxId = $this->_aViewData["oxid"] = $this->getEditObjectId();
-        $oNewsletter = oxNew(\OxidEsales\Eshop\Application\Model\Newsletter::class);
-
         if (isset($soxId) && $soxId != "-1") {
+            // load object
+            $oNewsletter = oxNew(\OxidEsales\Eshop\Application\Model\Newsletter::class);
             $oNewsletter->load($soxId);
             $this->_aViewData["edit"] = $oNewsletter;
         }
 
-        // generate editor
-        $this->_aViewData["editor"] = $this->_generateTextEditor(
-            "100%",
-            255,
-            $oNewsletter,
-            "oxnewsletter__oxtemplate"
-        );
-
-        return "newsletter_main.tpl";
+        return "newsletter_plain.tpl";
     }
 
     /**
-     * Saves newsletter HTML format text.
+     * Saves newsletter text in plain text format.
      */
     public function save()
     {
@@ -64,7 +56,7 @@ class NewsletterMain extends \OxidEsales\Eshop\Application\Controller\Admin\Admi
         } else {
             $aParams['oxnewsletter__oxid'] = null;
         }
-
+        //$aParams = $oNewsletter->ConvertNameArray2Idx( $aParams);
         $oNewsletter->assign($aParams);
         $oNewsletter->save();
 

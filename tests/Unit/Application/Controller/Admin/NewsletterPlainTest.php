@@ -12,12 +12,13 @@ use \Exception;
 use \oxTestModules;
 
 /**
- * Tests for Newsletter_Main class
+ * Tests for Newsletter_Plain class
  */
-class NewsletterMainTest extends \OxidTestCase
+class NewsletterPlainTest extends \OxidTestCase
 {
+
     /**
-     * Newsletter_Main::Render() test case
+     * Newsletter_Plain::Render() test case
      *
      * @return null
      */
@@ -26,8 +27,8 @@ class NewsletterMainTest extends \OxidTestCase
         $this->setRequestParameter("oxid", "testId");
 
         // testing..
-        $oView = oxNew('Newsletter_Main');
-        $this->assertEquals('newsletter_main.tpl', $oView->render());
+        $oView = oxNew('Newsletter_Plain');
+        $this->assertEquals('newsletter_plain.tpl', $oView->render());
         $aViewData = $oView->getViewData();
         $this->assertTrue(isset($aViewData['edit']));
         $this->assertTrue($aViewData['edit'] instanceof newsletter);
@@ -43,16 +44,15 @@ class NewsletterMainTest extends \OxidTestCase
         $this->setRequestParameter("oxid", "-1");
 
         // testing..
-        $oView = oxNew('Newsletter_Main');
-        $sTpl = $oView->render();
-        $this->assertEquals('newsletter_main.tpl', $sTpl);
+        $oView = oxNew('Newsletter_Plain');
+        $this->assertEquals('newsletter_plain.tpl', $oView->render());
         $aViewData = $oView->getViewData();
         $this->assertTrue(isset($aViewData['oxid']));
         $this->assertEquals("-1", $aViewData['oxid']);
     }
 
     /**
-     * Newsletter_Main::Save() test case
+     * Newsletter_Plain::Save() test case
      *
      * @return null
      */
@@ -63,13 +63,13 @@ class NewsletterMainTest extends \OxidTestCase
 
         // testing..
         try {
-            $oView = oxNew('Newsletter_Main');
+            $oView = oxNew('Newsletter_Plain');
             $oView->save();
         } catch (Exception $oExcp) {
-            $this->assertEquals("save", $oExcp->getMessage(), "error in Newsletter_Main::save()");
+            $this->assertEquals("save", $oExcp->getMessage(), "error in Newsletter_Plain::save()");
 
             return;
         }
-        $this->fail("error in Newsletter_Main::save()");
+        $this->fail("error in Newsletter_Plain::save()");
     }
 }
