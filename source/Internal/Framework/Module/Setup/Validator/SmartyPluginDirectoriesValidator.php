@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Validator;
 
-use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\DirectoryNotExistentException;
-use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\DirectoryNotReadableException;
+use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\FileGenerator\DirectoryNotExistentException;
+use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\FileGenerator\DirectoryNotReadableException;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataMapper\{
     ModuleConfiguration\SmartyPluginDirectoriesDataMapper
 };

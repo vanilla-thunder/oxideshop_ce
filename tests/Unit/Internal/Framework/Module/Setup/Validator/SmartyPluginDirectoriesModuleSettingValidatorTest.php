@@ -14,8 +14,8 @@ use OxidEsales\EshopCommunity\Internal\Framework\Module\Path\ModulePathResolverI
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Validator\SmartyPluginDirectoriesValidator;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\DirectoryNotExistentException;
-use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\DirectoryNotReadableException;
+use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\FileGenerator\DirectoryNotExistentException;
+use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\FileGenerator\DirectoryNotReadableException;
 use PHPUnit\Framework\TestCase;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Configuration\DataObject\ModuleConfiguration\SmartyPluginDirectory;
 use OxidEsales\EshopCommunity\Internal\Framework\Module\Setup\Exception\ModuleSettingNotValidException;

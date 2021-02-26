@@ -21,6 +21,6 @@ final class AdminExportNewsletterRecipientsCest
         $adminPanel = $I->loginAdmin();
         $newsletter = $adminPanel->openNewsletter();
         $newsletter->exportReciepents();
+        $I->waitForAjax();
     }
-
 }

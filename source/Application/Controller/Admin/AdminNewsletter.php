@@ -7,8 +7,11 @@
 
 namespace OxidEsales\EshopCommunity\Application\Controller\Admin;
 
-use OxidEsales\Eshop\Core\Registry;
 use OxidEsales\EshopCommunity\Application\Model\NewsletterRecipients;
+use OxidEsales\EshopCommunity\Internal\Container\ContainerFactory;
+use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\FileGenerator\Bridge\CsvFileGeneratorBridge;
+use OxidEsales\EshopCommunity\Internal\Framework\FileSystem\FileGenerator\Bridge\FileGeneratorBridgeInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Admin newsletter manager.
@@ -26,38 +29,31 @@ class AdminNewsletter extends \OxidEsales\Eshop\Application\Controller\Admin\Adm
 
     public function export(): void
     {
-        $this->download((new NewsletterRecipients())->getNewsletterRecipients());
+        $container = ContainerFactory::getInstance()->getContainer();
+        $this->setCSVHeader();
+        $this->generateCSV($container, (new NewsletterRecipients())->getNewsletterRecipients());
+        exit();
     }
 
-    /**
-     * @param array $data
-     */
-    private function download(array $data): void
+    private function setCSVHeader(): void
     {
         $filename = "Export_recipients_" . date("Y-m-d") . ".csv";
-        $oUtils = Registry::getUtils();
-        $oUtils->setHeader("Pragma: public");
-        $oUtils->setHeader("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        $oUtils->setHeader("Expires: 0");
-        $oUtils->setHeader("Content-Disposition: attachment; filename=vouchers.csv");
-        $oUtils->setHeader("Content-Type: application/csv");
-        $oUtils->setHeader("Content-Disposition: attachment;filename={$filename}");
-        $this->generateCSV($data);
-        $oUtils->showMessageAndExit("");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Expires: 0");
+        header("Content-Disposition: attachment; filename=vouchers.csv");
+        header("Content-Type: application/csv");
+        header("Content-Disposition: attachment;filename={$filename}");
     }
 
     /**
-     * @param array $data
+     * @param ContainerInterface $container
+     * @param array              $data
      *
-     * @return string|false
+     * @return void
      */
-    private function generateCSV(array $data)
+    public function generateCSV(ContainerInterface $container, array $data): void
     {
-        $fp = fopen("php://output", 'wb');
-
-        foreach ($data as $value) {
-            fputcsv($fp, $value);
-        }
-        fclose($fp);
+        $csvGenerator = $container->get(FileGeneratorBridgeInterface::class);
+        $csvGenerator->generate("php://output", $data);
     }
 }

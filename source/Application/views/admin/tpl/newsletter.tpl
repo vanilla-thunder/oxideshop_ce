@@ -14,7 +14,7 @@
 </form>
 
 
-<form name="myedit" id="myedit" action="[{$oViewConf->getSelfLink()}]" method="post"
+<form name="export_recipients" id="export_recipients" action="[{$oViewConf->getSelfLink()}]" method="post"
       onSubmit="copyLongDesc( 'oxnewsletter__oxtemplate' );">
     [{$oViewConf->getHiddenSid()}]
     <input type="hidden" name="cl" value="admin_newsletter">
@@ -28,7 +28,7 @@
             <td class="edittext"><br>
                 <input type="submit" class="edittext" name="export" id="newsletter_recipients"
                        value="[{oxmultilang ident="tbclnewsletter_recipients"}]"
-                       onClick="Javascript:document.myedit.fnc.value='export'"" [{$readonly}]>
+                       onClick="Javascript:document.export_recipients.fnc.value='export'"" [{$readonly}]>
             </td>
         </tr>
     </table>
